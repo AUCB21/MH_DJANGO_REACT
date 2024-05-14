@@ -26,10 +26,10 @@ class NoteListCreate(generics.ListCreateAPIView):
         else:
             print(serializer.errors) 
 
-class NoteDelete(generic.DestroyAPIView):
+class NoteDelete(generics.DestroyAPIView):
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        note = self.request.user.note
+        user = self.request.user
         return Note.objects.filter(author=user)
