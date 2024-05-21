@@ -7,13 +7,13 @@ WebApp hosted on premise, connects via TCP protocol, only domain-inserted
 #### Main purpouse is to track users' computers, monitors and peripherals
 User's are on different locations, different networks and their machines suffice different requirements
 As consecuence they have different type of machines including:
-  Ensambled PC's
-  Notebooks
-  All-in-One's
-  MacBooks
-  iMacs
-  Big 27" monitors
-  Small 22-24" monitors
+  Ensambled PC's,
+  Notebooks,
+  All-in-One's,
+  MacBooks,
+  iMacs,
+  Big 27" monitors,
+  Small 22-24" monitors,
   Dual-Monitor setups
 ####
 #### How does the app work?
