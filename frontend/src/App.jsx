@@ -1,11 +1,5 @@
-import react from "react";
-import {
-  BrowserRouter,
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/protectedRoutes";
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -26,8 +20,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {" "}
-        // Put all the routes here to navitage
         <Route
           path="/"
           element={
