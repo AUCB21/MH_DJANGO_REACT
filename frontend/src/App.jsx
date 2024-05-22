@@ -1,12 +1,11 @@
 import react from "react";
 import {
   BrowserRouter,
+  BrowserRouter,
   Navigate,
   Route,
-  BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-import Form from "./components/form";
 import ProtectedRoute from "./components/protectedRoutes";
 import Home from "./pages/home";
 import Login from "./pages/login";
