@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import "../styles/form.css";
 
 function Form({ route, method }) {
   const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ function Form({ route, method }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const mthd = method === login ? "Login" : "Register";
+  const mthd = method === "login" ? "Login" : "Register"; // Comparamos con "login"
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -17,7 +18,8 @@ function Form({ route, method }) {
 
     try {
       const res = await api.post(route, { username, password });
-      if (method === login) {
+      if (method === "login") {
+        // Comparamos con "login"
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         navigate("/");
@@ -41,7 +43,7 @@ function Form({ route, method }) {
       />
       <input
         className="form-input"
-        type="text"
+        type="password" // Cambiar a "password" en lugar de "text"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
