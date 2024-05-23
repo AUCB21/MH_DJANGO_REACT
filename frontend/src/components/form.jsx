@@ -7,10 +7,11 @@ import "../styles/form.css";
 function Form({ route, method }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const mthd = method === "login" ? "Login" : "Register"; // Comparamos con "login"
+  const mthd = method === "login" ? "Login" : "Register";
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -19,11 +20,10 @@ function Form({ route, method }) {
     try {
       const res = await api.post(route, { username, password });
       if (method === "login") {
-        // Comparamos con "login"
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         navigate("/");
-      } else navigate("/login");
+      } else navigate("/login/");
     } catch (e) {
       alert(e);
     } finally {
@@ -34,6 +34,13 @@ function Form({ route, method }) {
   return (
     <form onSubmit={handleSubmit} className="form-container">
       <h1>{mthd}</h1>
+      {/* <input
+        className="form-input"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+      /> */}
       <input
         className="form-input"
         type="text"
@@ -43,7 +50,7 @@ function Form({ route, method }) {
       />
       <input
         className="form-input"
-        type="password" // Cambiar a "password" en lugar de "text"
+        type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
