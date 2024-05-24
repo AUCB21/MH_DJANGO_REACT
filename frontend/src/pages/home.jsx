@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import Note from "../components/note";
 
 function Home() {
   const [notes, setNotes] = useState([]);
@@ -10,48 +11,54 @@ function Home() {
     getNotes();
   }, []);
 
-  const getNotes = () => {
-    api
-      .get("/api/notes/")
-      .then((res) => {
-        res.data;
-        console.log(res.data);
-      })
-      .then((data) => setNotes(data))
-      .catch((e) => alert(e));
+  const getNotes = async () => {
+    try {
+      const res = await api.get("/api/notes/");
+      console.log(res.data);
+      setNotes(res.data);
+    } catch (e) {
+      alert(e);
+    }
   };
 
-  const deleteNotes = (id) => {
-    api
-      .delete(`/api/notes/delete/${id}`)
-      .then((res) => {
-        getNotes();
-        res.status === 204
-          ? alert("Note was deleted")
-          : alert("Failed to delete note");
-      })
-      .catch((e) => alert(e));
-
+  const deleteNotes = async (id) => {
+    try {
+      const res = await api.delete(`/api/notes/delete/${id}`);
+      getNotes();
+      res.status === 204
+        ? alert("Note was deleted")
+        : alert("Failed to delete note");
+    } catch (e) {
+      alert(e);
+    }
   };
 
-  const createNote = (e) => {
+  const createNote = async (e) => {
     e.preventDefault();
-    api
-      .post("/api/notes/", { content, title })
-      .then((res) => {
-        if (res.status === 201) {
-          alert("Note created");
-          getNotes();
-        } else {
-          alert("Failed to create note");
-        }
-      })
-      .catch((e) => alert(e));
+    try {
+      const res = await api.post("/api/notes/", { content, title });
+      if (res.status === 201) {
+        alert("Note created");
+        getNotes();
+      } else {
+        alert("Failed to create note");
+      }
+    } catch (e) {
+      alert(e);
+    }
   };
+
   return (
     <div>
       <div>
         <h2>Notes</h2>
+        {notes && notes.map((note) => {
+          <Note
+            note={note}
+            onDelete={deleteNotes}
+            key={note.id}>
+          </Note>;
+        })}
       </div>
       <h2>Create a Note</h2>
       <form onSubmit={createNote}>
