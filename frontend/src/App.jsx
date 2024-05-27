@@ -12,7 +12,7 @@ function Logout() {
 }
 
 function RegisterAndLogout() {
-  localStorage.clear(); // Wipe potential Tokenss
+  localStorage.clear(); // Wipe potential Tokens
   return <Register />;
 }
 

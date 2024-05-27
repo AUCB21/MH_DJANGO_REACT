@@ -9,9 +9,12 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
-    token
-      ? (config.headers.Authorization = `Bearer ${token}`) // JWT Access Token
-      : delete config.headers.Authorization;
+    // console.log("Token JWT:", token)
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      delete config.headers.Authorization;
+    }
     return config;
   },
   (error) => {
