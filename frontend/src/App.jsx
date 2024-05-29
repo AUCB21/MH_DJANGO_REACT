@@ -1,10 +1,11 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, redirect } from "react-router-dom";
 import ProtectedRoute from "./components/protectedRoutes";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import NotFound from "./pages/notFound";
 import Register from "./pages/register";
+
 
 function Logout() {
   localStorage.clear();

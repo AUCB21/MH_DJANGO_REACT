@@ -15,6 +15,8 @@ function Home() {
     try {
       const res = await api.get("/api/notes/");
       console.log(res.data);
+      alert("Succesfully fetched notes!")
+      // res.data.map((note) => console.log(note.content));
       setNotes(res.data);
     } catch (e) {
       alert(e);
@@ -50,16 +52,6 @@ function Home() {
 
   return (
     <div>
-      <div>
-        <h2>Notes</h2>
-        {notes && notes.map((note) => {
-          <Note
-            note={note}
-            onDelete={deleteNotes}
-            key={note.id}>
-          </Note>;
-        })}
-      </div>
       <h2>Create a Note</h2>
       <form onSubmit={createNote}>
         <label htmlFor="title">Title: </label>
@@ -88,6 +80,16 @@ function Home() {
         <br />
         <input type="submit" value="Submit" />
       </form>
+      <h2>Notes</h2>
+      {notes ? notes.map((note) => (
+        <Note
+          key={note.id}
+          note={note}
+          onDelete={deleteNotes}
+        />
+      )) : (
+        <p>No notes to display</p>
+      )}
     </div>
   );
 }
