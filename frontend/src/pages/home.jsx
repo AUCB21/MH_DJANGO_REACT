@@ -11,85 +11,85 @@ function Home() {
     getNotes();
   }, []);
 
-  const getNotes = async () => {
-    try {
-      const res = await api.get("/api/notes/");
-      console.log(res.data);
-      alert("Succesfully fetched notes!")
-      // res.data.map((note) => console.log(note.content));
-      setNotes(res.data);
-    } catch (e) {
-      alert(e);
-    }
+  const getNotes = () => {
+    api
+      .get("/api/notes/")
+      .then((res) => res.data)
+      .then((data) => {
+        setNotes(data);
+        console.log(data);
+      })
+      .catch((err) => alert(err));
   };
 
-  const deleteNotes = async (id) => {
-    try {
-      const res = await api.delete(`/api/notes/delete/${id}`);
-      getNotes();
-      res.status === 204
-        ? alert("Note was deleted")
-        : alert("Failed to delete note");
-    } catch (e) {
-      alert(e);
-    }
-  };
-
-  const createNote = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await api.post("/api/notes/", { content, title });
-      if (res.status === 201) {
-        alert("Note created");
+  const deleteNote = (id) => {
+    api
+      .delete(`/api/notes/delete/${id}/`)
+      .then((res) => {
+        if (res.status === 204) alert("Note deleted!");
+        else alert("Failed to delete note.");
         getNotes();
-      } else {
-        alert("Failed to create note");
-      }
-    } catch (e) {
-      alert(e);
-    }
+      })
+      .catch((error) => alert(error));
+  };
+
+  const createNote = (e) => {
+    e.preventDefault();
+    api
+      .post("/api/notes/", { content, title })
+      .then((res) => {
+        if (res.status === 201) alert("Note created!");
+        else alert("Failed to make note.");
+        getNotes();
+      })
+      .catch((err) => alert(err));
   };
 
   return (
     <div>
-      <h2>Create a Note</h2>
-      <form onSubmit={createNote}>
-        <label htmlFor="title">Title: </label>
-        <br />
-        <input
-          type="text"
-          name="title"
-          id="title"
-          required
-          onChange={(e) =>
-            setTitle(e.target.value)
-          } /* setea el titulo de la nota */
-          value={title}
-        />
-        <br />
-        <label htmlFor="content">Content: </label>
-        <textarea
-          name="content"
-          id="content"
-          required
-          value={content}
-          onChange={(e) =>
-            setContent(e.target.value)
-          } /* setea el contenido de la nota */
-        ></textarea>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
-      <h2>Notes</h2>
-      {notes ? notes.map((note) => (
-        <Note
-          key={note.id}
-          note={note}
-          onDelete={deleteNotes}
-        />
-      )) : (
-        <p>No notes to display</p>
-      )}
+      <div>
+        <h2>Create a Note</h2>
+        <form onSubmit={createNote} className="max-w-sm mx-auto">
+          <div class="mb-5">
+            <br />
+
+            <label
+              for="large-input"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Title:
+            </label>
+            <input
+              type="text"
+              id="large-input"
+              className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+            />
+          </div>
+
+          <label htmlFor="content">Content:</label>
+          <br />
+          <textarea
+            id="content"
+            name="content"
+            required
+            value={content}
+            rows="4"
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Note content..."
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
+          <br />
+          <input type="submit" value="Submit"></input>
+        </form>
+        <h2>Notes</h2>
+        {notes &&
+          notes.map((note) => (
+            <Note note={note} onDelete={deleteNote} key={note.id} />
+          ))}
+      </div>
     </div>
   );
 }
